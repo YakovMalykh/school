@@ -27,7 +27,8 @@ public class StudentService {
     }
 
     public Student editStudent(Student student) {
-        if (allStudents.containsKey(student.getId())) {
+        if (allStudents.containsKey(student.getId()) &&
+                !allStudents.containsValue(student)) {
             allStudents.put(student.getId(), student);
             return student;
         }

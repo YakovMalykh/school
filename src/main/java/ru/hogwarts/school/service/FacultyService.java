@@ -26,7 +26,8 @@ public class FacultyService {
     }
 
     public Faculty editFaculty(Faculty faculty) {
-        if (allFakulties.containsKey(faculty.getId())) {
+        if (allFakulties.containsKey(faculty.getId()) &&
+                !allFakulties.containsValue(faculty)) {
             allFakulties.put(faculty.getId(), faculty);
             return faculty;
         }
@@ -42,7 +43,7 @@ public class FacultyService {
     }
 
     public Collection<Faculty> findFacultyByColor(String color) {
-        return allFakulties.values().stream().filter(e->e.getColor().equals(color))
+        return allFakulties.values().stream().filter(e -> e.getColor().equals(color))
                 .collect(Collectors.toList());
     }
 
