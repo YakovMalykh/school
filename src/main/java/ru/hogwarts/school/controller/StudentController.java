@@ -8,7 +8,7 @@ import ru.hogwarts.school.service.StudentService;
 import java.util.Collection;
 
 @RestController
-@RequestMapping("student")
+@RequestMapping("/student")
 public class StudentController {
 
     private final StudentService studentService;
@@ -18,15 +18,11 @@ public class StudentController {
     }
 
     @PostMapping
-    public ResponseEntity<Student> createStudent(@RequestBody Student student) {
-       Student result = studentService.createStudent(student);
-        if (result == null) {
-            return ResponseEntity.badRequest().build();
-        }
-        return ResponseEntity.ok(result);
+    public Student createStudent(@RequestBody Student student) {
+        return studentService.createStudent(student);
     }
 
-    @GetMapping("{id}")
+    @GetMapping("/{id}")
     public ResponseEntity<Student> findStudent(@PathVariable long id) {
         Student student = studentService.findStudent(id);
         if (student == null) {
@@ -34,36 +30,26 @@ public class StudentController {
         }
         return ResponseEntity.ok(student);
     }
+
     @GetMapping
     public Collection<Student> getAllStudents() {
         return studentService.getAllStudents();
     }
 
     @PutMapping
-    public ResponseEntity<Student> editStudent(@RequestBody Student student) {
-        Student requiredStudent = studentService.editStudent(student);
-        if (requiredStudent == null) {
-           return ResponseEntity.notFound().build();
-        }
-        return ResponseEntity.ok(requiredStudent);
+    public Student editStudent(@RequestBody Student student) {
+        return studentService.editStudent(student);
     }
 
-    @DeleteMapping("{id}")
+    @DeleteMapping("/{id}")
     public ResponseEntity<Student> removeStudent(@PathVariable long id) {
-        Student requiredStudent = studentService.removeStudent(id);
-        if (requiredStudent==null){
-           return ResponseEntity.notFound().build();
-        }
-        return ResponseEntity.ok(requiredStudent);
+        studentService.removeStudent(id);
+        return ResponseEntity.ok().build();
     }
 
     @GetMapping("/byage/{age}")
-    public ResponseEntity<Collection<Student>> getStudentsByAge(@PathVariable int age) {
-        Collection<Student> result= studentService.findStudentsByAge(age);
-        if (result.isEmpty()) {
-            return ResponseEntity.notFound().build();
-        }
-        return ResponseEntity.ok(result);
+    public Collection<Student> getStudentsByAge(@PathVariable int age) {
+        return studentService.findStudentsByAge(age);
     }
 
 }

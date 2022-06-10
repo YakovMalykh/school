@@ -3,13 +3,12 @@ package ru.hogwarts.school.controller;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.hogwarts.school.model.Faculty;
-import ru.hogwarts.school.model.Student;
 import ru.hogwarts.school.service.FacultyService;
 
 import java.util.Collection;
 
 @RestController
-@RequestMapping("faculty")
+@RequestMapping("/faculty")
 public class FacultyController {
 
     private final FacultyService facultyService;
@@ -19,15 +18,11 @@ public class FacultyController {
     }
 
     @PostMapping
-    public ResponseEntity<Faculty> createFaculty(@RequestBody Faculty faculty) {
-        Faculty result = facultyService.createFaculty(faculty);
-        if (result == null) {
-            return ResponseEntity.badRequest().build();
-        }
-        return ResponseEntity.ok(result);
+    public Faculty createFaculty(@RequestBody Faculty faculty) {
+        return facultyService.createFaculty(faculty);
     }
 
-    @GetMapping("{id}")
+    @GetMapping("/{id}")
     public ResponseEntity<Faculty> findFaculty(@PathVariable long id) {
         Faculty faculty = facultyService.findFaculry(id);
         if (faculty == null) {
@@ -42,21 +37,14 @@ public class FacultyController {
     }
 
     @PutMapping
-    public ResponseEntity<Faculty> editFaculty(@RequestBody Faculty faculty) {
-        Faculty requiredFaculty = facultyService.editFaculty(faculty);
-        if (requiredFaculty == null) {
-            return ResponseEntity.notFound().build();
-        }
-        return ResponseEntity.ok(requiredFaculty);
+    public Faculty editFaculty(@RequestBody Faculty faculty) {
+        return facultyService.editFaculty(faculty);
     }
 
-    @DeleteMapping("{id}")
+    @DeleteMapping("/{id}")
     public ResponseEntity<Faculty> removeFaculty(@PathVariable long id) {
-        Faculty requiredFaculty = facultyService.removeFaculty(id);
-        if (requiredFaculty == null) {
-            return ResponseEntity.notFound().build();
-        }
-        return ResponseEntity.ok(requiredFaculty);
+        facultyService.removeFaculty(id);
+        return ResponseEntity.ok().build();
     }
     @GetMapping("/bycolor/{color}")
     public ResponseEntity<Collection<Faculty>> getFacultyByColor(
