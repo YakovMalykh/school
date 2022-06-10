@@ -62,8 +62,8 @@ public class StudentController {
     }
 
     @GetMapping("/getFaculty")
-    public Faculty getfacultyOfStudent(@RequestParam long student_id) {
-        return studentService.getFacultyOfStudent(student_id);
+    public Faculty getfacultyOfStudent(@RequestParam long studentId) {
+        return studentService.getFacultyOfStudent(studentId);
     }
 
 

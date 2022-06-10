@@ -38,17 +38,12 @@ public class FacultyService {
 
         return facultyRepository.findAll();
     }
-//решил убарть этот метод, т.к. появлися поиск по имени и цвету
-//    public Collection<Faculty> findFacultyByColor(String color) {
-//        return facultyRepository.findByColor(color);
-//    }
-
-    public Collection<Faculty> findByNameOrColor(String name, String color) {
-        return facultyRepository.findByNameContainsIgnoreCaseOrColorContainsIgnoreCase(name, color);
+    public Collection<Faculty> findByNameOrColor(String str) {
+        return facultyRepository.findByNameContainsIgnoreCaseOrColorContainsIgnoreCase(str, str);
     }
 
-    public Collection<Student> getStudentsOfFaculty(Long faculty_id) {
-        return findFaculry(faculty_id).getStudents();
+    public Collection<Student> getStudentsOfFaculty(Long facultyId) {
+        return findFaculry(facultyId).getStudents();
     }
 
 }
