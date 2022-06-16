@@ -28,6 +28,7 @@ public class StudentService {
     }
 
     public Student editStudent(Student student) {
+
         return studentRepository.save(student);
     }
 
@@ -48,6 +49,7 @@ public class StudentService {
     }
 
     public Faculty getFacultyOfStudent(long studentId) {
+
         return findStudent(studentId).getFaculty();
     }
 
