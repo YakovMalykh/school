@@ -50,8 +50,10 @@ class SchoolApplicationTestsRestTemplate {
                 .assertThat(this.testRestTemplate.postForObject(
                         "http://localhost:" + port + "/student", student, Student.class))
                 .isNotNull();
-        //удаляю созданный при тесте элемент
         Student testStudent = studentRepository.findByName(testName + "post");
+        assertEquals(testStudent.getName(),student.getName());
+        assertEquals(testStudent.getAge(),student.getAge());
+        //удаляю созданный при тесте элемент
         clearAfterTest(testStudent);
     }
 
@@ -101,8 +103,9 @@ class SchoolApplicationTestsRestTemplate {
 
         student.setName("Miron");
 
-        this.testRestTemplate.put("http://localhost:" + port + "/student", student);
-        assertEquals(student.getName(), "Miron");
+       this.testRestTemplate.put("http://localhost:" + port + "/student", student);
+        assertEquals(studentRepository.findByName("Miron").getName(), "Miron");
+        assertNotNull(studentRepository.findByName("Miron"));
 
         //удаляю созданный при тесте элемент
         clearAfterTest(student);

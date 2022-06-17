@@ -28,6 +28,7 @@ import java.util.Optional;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.isNull;
+import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -157,6 +158,8 @@ public class SchoolApplicationWebMvcTest {
         //facultyRepository.deleteById() замокать не дает, т.к метод ничего не возвращает(void)
         //не понимаю как его протестировать, если мы в реальную БД не идем,
         // а только подкладываем нужные ответы... как мен подложить нужный ответ?
+        doNothing().when(facultyRepository).deleteById(any(Long.class));
+
         mockMvc.perform(MockMvcRequestBuilders
                         .delete("/faculty/" + any(Long.class))
                         .accept(MediaType.APPLICATION_JSON))
