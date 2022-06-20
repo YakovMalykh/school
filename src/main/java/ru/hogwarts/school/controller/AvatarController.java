@@ -15,6 +15,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.List;
 
 @RestController
 @RequestMapping
@@ -54,4 +55,12 @@ public class AvatarController {
             is.transferTo(os);
         }
     }
+
+//    @GetMapping("/get-all-avatars")
+//    public ResponseEntity<byte[]> getAllAvatars() {
+//        List<Avatar> avatars = avatarService.getAvatarsOfAllStudents();
+//        HttpHeaders headers = new HttpHeaders();
+//        headers.setContentType(MediaType.parseMediaType(avatars.get));
+//    }
+
 }

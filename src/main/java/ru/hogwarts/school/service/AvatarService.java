@@ -11,6 +11,7 @@ import javax.transaction.Transactional;
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.List;
 
 import static java.nio.file.StandardOpenOption.CREATE_NEW;
 
@@ -57,6 +58,10 @@ public class AvatarService {
     public Avatar findAvatar(Long studentId) {
         return avatarRepository.findByStudentId(studentId).orElse(new Avatar());
     }
+
+//    public List<Avatar> getAvatarsOfAllStudents() {
+//        return avatarRepository.findAll();
+//    }
 
     private String getExtention(String fileName) {
         return fileName.substring(fileName.lastIndexOf(".") + 1);

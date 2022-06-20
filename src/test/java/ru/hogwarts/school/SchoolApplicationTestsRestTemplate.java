@@ -102,7 +102,7 @@ class SchoolApplicationTestsRestTemplate {
         assertEquals(student.getName(), testName);
 
         student.setName("Miron");
-
+        
        this.testRestTemplate.put("http://localhost:" + port + "/student", student);
         assertEquals(studentRepository.findByName("Miron").getName(), "Miron");
         assertNotNull(studentRepository.findByName("Miron"));
