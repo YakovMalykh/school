@@ -20,12 +20,13 @@ public class FacultyController {
 
     @PostMapping
     public Faculty createFaculty(@RequestBody Faculty faculty) {
+
         return facultyService.createFaculty(faculty);
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<Faculty> findFaculty(@PathVariable long id) {
-        Faculty faculty = facultyService.findFaculry(id);
+        Faculty faculty = facultyService.findFaculty(id);
         if (faculty == null) {
             return ResponseEntity.notFound().build();
         }
@@ -34,11 +35,13 @@ public class FacultyController {
 
     @GetMapping
     public Collection<Faculty> getAllFaculty() {
+
         return facultyService.getAllFaculty();
     }
 
     @PutMapping
     public Faculty editFaculty(@RequestBody Faculty faculty) {
+
         return facultyService.editFaculty(faculty);
     }
 

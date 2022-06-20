@@ -15,11 +15,13 @@ public class StudentController {
     private final StudentService studentService;
 
     public StudentController(StudentService studentService) {
+
         this.studentService = studentService;
     }
 
     @PostMapping
     public Student createStudent(@RequestBody Student student) {
+
         return studentService.createStudent(student);
     }
 
@@ -46,6 +48,7 @@ public class StudentController {
 
     @PutMapping
     public Student editStudent(@RequestBody Student student) {
+
         return studentService.editStudent(student);
     }
 

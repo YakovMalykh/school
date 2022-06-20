@@ -9,4 +9,7 @@ public interface StudentRepository extends JpaRepository<Student, Long> {
     List<Student> findByAge(int age);
 
     List<Student> findByAgeBetween(int from, int to);
+
+    Student findByName(String name);// создал метод, чтобы после теста post-запроса почистить
+    // БД от созданного тестового элемента
 }
