@@ -1,6 +1,7 @@
 package ru.hogwarts.school.repositories;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import ru.hogwarts.school.model.Student;
 
 import java.util.List;
@@ -12,4 +13,13 @@ public interface StudentRepository extends JpaRepository<Student, Long> {
 
     Student findByName(String name);// создал метод, чтобы после теста post-запроса почистить
     // БД от созданного тестового элемента
+
+    @Query(value = "SELECT COUNT(*) as total_students FROM student", nativeQuery = true)
+    Integer countStudents();
+
+    @Query(value = "select avg(age) from student", nativeQuery = true)
+    Double averageAge();
+
+    @Query(value = "select *from student order by id desc limit 5", nativeQuery = true)
+    List<Student> lastFiveStudents();
 }
