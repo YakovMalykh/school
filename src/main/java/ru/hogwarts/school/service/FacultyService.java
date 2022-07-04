@@ -8,6 +8,9 @@ import ru.hogwarts.school.model.Student;
 import ru.hogwarts.school.repositories.FacultyRepository;
 
 import java.util.Collection;
+import java.util.Comparator;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Service
 public class FacultyService {
@@ -44,6 +47,7 @@ public class FacultyService {
         logger.debug("был вызван метод getAllFaculty");
         return facultyRepository.findAll();
     }
+
     public Collection<Faculty> findByNameOrColor(String str) {
         logger.debug("был вызван метод findByNameOrColor");
         return facultyRepository.findByNameContainsIgnoreCaseOrColorContainsIgnoreCase(str, str);
@@ -52,6 +56,15 @@ public class FacultyService {
     public Collection<Student> getStudentsOfFaculty(Long facultyId) {
         logger.debug("был вызван метод getStudentsOfFaculty");
         return findFaculty(facultyId).getStudents();
+    }
+
+    public String getMostLongFacultyName() {
+        logger.debug("был вызван метод getMostLongFacultyName");
+        return facultyRepository.findAll()
+                .stream()
+                .map(f -> f.getName())
+                .max(Comparator.comparing(s -> s.toCharArray().length))
+                .get();
     }
 
 }

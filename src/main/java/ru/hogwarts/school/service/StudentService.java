@@ -49,6 +49,18 @@ public class StudentService {
         return studentRepository.findAll();
     }
 
+    public List<String> getAllStudentsNameStartedWith(String partName) {
+//        решил сделать с вводом параметра, хотя по заданию требовалась только "А"
+        logger.debug("был вызван метод getAllStudentsNameStartedWith");
+        return studentRepository.findAll()
+                .stream()
+                .filter(e -> e.getName().contains(partName))
+                .map(e -> e.getName())
+                .map(e->e.toUpperCase())
+                .sorted()
+                .collect(Collectors.toList());
+    }
+
     public Collection<Student> findStudentsByAge(int age) {
         logger.debug("был вызван метод findStudentsByAge");
         return studentRepository.findByAge(age);
@@ -74,8 +86,19 @@ public class StudentService {
         return studentRepository.averageAge();
     }
 
+    public Double getAverageAgeByFindAllMethod () {
+        logger.debug("был вызван метод getAverageAgeByFindAllMethod");
+       return studentRepository.findAll()
+                .stream()
+                .mapToDouble(e->e.getAge())
+                .average()
+               .getAsDouble();
+
+    }
+
     public List<Student> getLastFiveStudents() {
         logger.debug("был вызван метод getLastFiveStudents");
         return studentRepository.lastFiveStudents();
     }
+
 }
