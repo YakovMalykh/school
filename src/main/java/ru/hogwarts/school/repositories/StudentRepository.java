@@ -11,8 +11,7 @@ public interface StudentRepository extends JpaRepository<Student, Long> {
 
     List<Student> findByAgeBetween(int from, int to);
 
-    Student findByName(String name);// создал метод, чтобы после теста post-запроса почистить
-    // БД от созданного тестового элемента
+    Student findByName(String name);
 
     @Query(value = "SELECT COUNT(*) as total_students FROM student", nativeQuery = true)
     Integer countStudents();
@@ -22,4 +21,5 @@ public interface StudentRepository extends JpaRepository<Student, Long> {
 
     @Query(value = "select *from student order by id desc limit 5", nativeQuery = true)
     List<Student> lastFiveStudents();
+
 }

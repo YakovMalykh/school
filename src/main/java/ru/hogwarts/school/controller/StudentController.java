@@ -70,7 +70,7 @@ public class StudentController {
         return studentService.getFacultyOfStudent(studentId);
     }
 
-    @GetMapping("/numder-of-students")
+    @GetMapping("/number-of-students")
     public Integer getNumberOfStudents() {
         return studentService.getNumberOfStudents();
     }
@@ -80,8 +80,18 @@ public class StudentController {
         return studentService.getAverageAge();
     }
 
+    @GetMapping("/average-age-second-method")
+    public Double getAverageAgeSecondMethod() {
+        return studentService.getAverageAgeByFindAllMethod();
+    }
+
     @GetMapping("/last-five")
     public List<Student> getLastFiveStudents() {
         return studentService.getLastFiveStudents();
+    }
+
+    @GetMapping("/by-part-name")
+    public List<String> getAllStudentsNameStartedWith(@RequestParam String partName) {
+        return studentService.getAllStudentsNameStartedWith(partName);
     }
 }

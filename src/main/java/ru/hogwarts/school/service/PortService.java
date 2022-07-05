@@ -5,6 +5,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import java.util.stream.Stream;
+
 @Service
 public class PortService {
 
@@ -16,5 +18,17 @@ public class PortService {
     public String getPort() {
         logger.debug("получен Server port {}", port);
         return port;
+    }
+
+    public int returnInteger() {
+//        добавил проверку времени исполнения с выводом в консоль
+        long timeStart = System.currentTimeMillis();
+        logger.debug("был вызван метод createFaculty");
+        int sum = Stream.iterate(1, a -> a + 1)
+                .parallel()
+                .limit(1_000_000)
+                .reduce(0, (a, b) -> a + b);
+        System.out.println(System.currentTimeMillis()-timeStart);
+        return sum;
     }
 }

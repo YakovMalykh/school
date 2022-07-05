@@ -12,7 +12,12 @@ public class InfoController {
     private PortService portService;
 
     @GetMapping("/port")
-    public String getPort () {
+    public String getPort() {
         return portService.getPort();
+    }
+
+    @GetMapping("/returnInteger")
+    public int returnInteger() {
+        return portService.returnInteger();
     }
 }
