@@ -23,7 +23,7 @@ public class PortService {
     public int returnInteger() {
 //        добавил проверку времени исполнения с выводом в консоль
         long timeStart = System.currentTimeMillis();
-        logger.debug("был вызван метод createFaculty");
+        logger.debug("был вызван метод returnInteger");
         int sum = Stream.iterate(1, a -> a + 1)
                 .parallel()
                 .limit(1_000_000)
