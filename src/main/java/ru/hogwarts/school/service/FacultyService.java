@@ -3,6 +3,7 @@ package ru.hogwarts.school.service;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
+import org.webjars.NotFoundException;
 import ru.hogwarts.school.model.Faculty;
 import ru.hogwarts.school.model.Student;
 import ru.hogwarts.school.repositories.FacultyRepository;
@@ -63,8 +64,8 @@ public class FacultyService {
         return facultyRepository.findAll()
                 .stream()
                 .map(f -> f.getName())
-                .max(Comparator.comparing(s -> s.toCharArray().length))
-                .get();
+                .max(Comparator.comparing(s -> s.length()))
+                .orElse("список факультетов пуст");
     }
 
 }

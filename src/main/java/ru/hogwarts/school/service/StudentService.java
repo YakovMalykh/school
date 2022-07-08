@@ -8,9 +8,7 @@ import ru.hogwarts.school.model.Student;
 import ru.hogwarts.school.repositories.StudentRepository;
 
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -54,9 +52,9 @@ public class StudentService {
         logger.debug("был вызван метод getAllStudentsNameStartedWith");
         return studentRepository.findAll()
                 .stream()
-                .filter(e -> e.getName().contains(partName))
                 .map(e -> e.getName())
-                .map(e->e.toUpperCase())
+                .filter(e -> e.startsWith(partName))
+                .map(e -> e.toUpperCase())
                 .sorted()
                 .collect(Collectors.toList());
     }
@@ -86,19 +84,118 @@ public class StudentService {
         return studentRepository.averageAge();
     }
 
-    public Double getAverageAgeByFindAllMethod () {
+    public Double getAverageAgeByFindAllMethod() {
         logger.debug("был вызван метод getAverageAgeByFindAllMethod");
-       return studentRepository.findAll()
+        return studentRepository.findAll()
                 .stream()
-                .mapToDouble(e->e.getAge())
+                .mapToDouble(e -> e.getAge())
                 .average()
-               .getAsDouble();
+                .getAsDouble();
 
     }
 
     public List<Student> getLastFiveStudents() {
         logger.debug("был вызван метод getLastFiveStudents");
         return studentRepository.lastFiveStudents();
+    }
+
+    private List<String> getSortedListOfStudentsNames() {
+//        logger.debug("был вызван метод getAllStudentsNameParallelStreamTask");
+        return studentRepository.getAllStudentsSortedByName().stream()
+                .map(Student::getName)
+                .toList();
+
+// сначала пытался все в этом методе сделать, но при печати в консоль выводились потоки не парарллельно,
+//        а поочереди все равно. Вынес печать и обращение к этому приватному методу в отдельный метод, где уже
+//        обращаюсь к методу в разных потоках
+
+//        System.out.println("mainThread " + studentsName.get(0));
+//        System.out.println("mainThread " + studentsName.get(1));
+//
+//        new Thread(() -> {
+//            System.out.println("secondThread " + studentsName.get(3));
+//            System.out.println("secondThread " + studentsName.get(4));
+//            System.out.println("secondThread " + studentsName.get(5));
+//        }).start();
+//
+//        new Thread(() -> {
+//            System.out.println("thirdThread " + studentsName.get(6));
+//            System.out.println("thirdThread " + studentsName.get(7));
+//            System.out.println("thirdThread " + studentsName.get(8));
+//        }).start();
+//
+//        System.out.println("mainThread " + studentsName.get(9));
+//        System.out.println("mainThread " + studentsName.get(2));
+
+    }
+
+    public void parallelTask() {
+
+        Thread thread_2 = new Thread(() -> {
+            System.out.println("thread 2: " + getSortedListOfStudentsNames().get(3));
+            System.out.println("thread 2: " + getSortedListOfStudentsNames().get(4));
+            System.out.println("thread 2: " + getSortedListOfStudentsNames().get(5));
+        });
+
+        Thread thread_3 = new Thread(() -> {
+            System.out.println("thread 3: " + getSortedListOfStudentsNames().get(6));
+            System.out.println("thread 3: " + getSortedListOfStudentsNames().get(7));
+            System.out.println("thread 3: " + getSortedListOfStudentsNames().get(8));
+        });
+
+        thread_2.start();
+        thread_3.start();
+        System.out.println("thread 1: " + getSortedListOfStudentsNames().get(0));
+        System.out.println("thread 1: " + getSortedListOfStudentsNames().get(1));
+        System.out.println("thread 1: " + getSortedListOfStudentsNames().get(2));
+        System.out.println("thread 1: " + getSortedListOfStudentsNames().get(9));
+
+
+    }
+
+    //    private int count = 0;
+    private Object flag = new Object();
+
+    private void synchronizedPrintName(String name) {
+        System.out.println(name);
+//        сначала пытался синхронизировать через этот метод, но обеспечить порядок, как в полученном списке
+//        не удавалось. Введение count (ее подставлял в параметр getSortedListOfStudentsNames().get(count))
+//        и ее инкрементация после вызова метода и без доп-й синхронизации обеспечили порядок первоначальный,
+//        так и не понял почему, ведь потоки параллельно должны были вызывать метод, и даже если он был помечен
+//        ключ словом sinchronized они могли вызывать его поочереди, но не по порядку.
+
+
+//        count++;
+//        if (count == getSortedListOfStudentsNames().size()) {
+//            count=0;
+//        }
+    }
+
+
+    public void synchronizedGetNames() {
+        synchronizedPrintName(getSortedListOfStudentsNames().get(0));
+        synchronizedPrintName(getSortedListOfStudentsNames().get(1));
+        synchronizedPrintName(getSortedListOfStudentsNames().get(2));
+        synchronizedPrintName(getSortedListOfStudentsNames().get(3));
+
+        new Thread(() -> {
+            synchronized (flag) {
+                synchronizedPrintName(getSortedListOfStudentsNames().get(4));
+                synchronizedPrintName(getSortedListOfStudentsNames().get(5));
+                synchronizedPrintName(getSortedListOfStudentsNames().get(6));
+            }
+        }
+        ).start();
+
+        new Thread(() -> {
+            synchronized (flag) {
+                synchronizedPrintName(getSortedListOfStudentsNames().get(7));
+                synchronizedPrintName(getSortedListOfStudentsNames().get(8));
+                synchronizedPrintName(getSortedListOfStudentsNames().get(9));
+            }
+        }
+        ).start();
+
     }
 
 }

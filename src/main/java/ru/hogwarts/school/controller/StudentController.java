@@ -94,4 +94,13 @@ public class StudentController {
     public List<String> getAllStudentsNameStartedWith(@RequestParam String partName) {
         return studentService.getAllStudentsNameStartedWith(partName);
     }
+    @GetMapping("getStudents-parallel")
+    public void getAllStudentsNameParallelStream() {
+        studentService.parallelTask();
+    }
+
+    @GetMapping("/synchronizeStreams")
+    public void getAllStudentsBySynchronisedMethod() {
+        studentService.synchronizedGetNames();
+    }
 }
