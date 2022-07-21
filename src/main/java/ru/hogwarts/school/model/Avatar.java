@@ -13,7 +13,6 @@ public class Avatar {
     @Id
     @GeneratedValue
     private Long id;
-
     private String filePath;
     private long fileSize;
     private String mediaType;

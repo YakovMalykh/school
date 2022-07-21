@@ -61,6 +61,7 @@ public class StudentService {
 
     public Collection<Student> findStudentsByAge(int age) {
         logger.debug("был вызван метод findStudentsByAge");
+
         return studentRepository.findByAge(age);
     }
 
@@ -100,33 +101,9 @@ public class StudentService {
     }
 
     private List<String> getSortedListOfStudentsNames() {
-//        logger.debug("был вызван метод getAllStudentsNameParallelStreamTask");
         return studentRepository.getAllStudentsSortedByName().stream()
                 .map(Student::getName)
                 .toList();
-
-// сначала пытался все в этом методе сделать, но при печати в консоль выводились потоки не парарллельно,
-//        а поочереди все равно. Вынес печать и обращение к этому приватному методу в отдельный метод, где уже
-//        обращаюсь к методу в разных потоках
-
-//        System.out.println("mainThread " + studentsName.get(0));
-//        System.out.println("mainThread " + studentsName.get(1));
-//
-//        new Thread(() -> {
-//            System.out.println("secondThread " + studentsName.get(3));
-//            System.out.println("secondThread " + studentsName.get(4));
-//            System.out.println("secondThread " + studentsName.get(5));
-//        }).start();
-//
-//        new Thread(() -> {
-//            System.out.println("thirdThread " + studentsName.get(6));
-//            System.out.println("thirdThread " + studentsName.get(7));
-//            System.out.println("thirdThread " + studentsName.get(8));
-//        }).start();
-//
-//        System.out.println("mainThread " + studentsName.get(9));
-//        System.out.println("mainThread " + studentsName.get(2));
-
     }
 
     public void parallelTask() {
@@ -153,22 +130,10 @@ public class StudentService {
 
     }
 
-    //    private int count = 0;
     private Object flag = new Object();
 
     private void synchronizedPrintName(String name) {
         System.out.println(name);
-//        сначала пытался синхронизировать через этот метод, но обеспечить порядок, как в полученном списке
-//        не удавалось. Введение count (ее подставлял в параметр getSortedListOfStudentsNames().get(count))
-//        и ее инкрементация после вызова метода и без доп-й синхронизации обеспечили порядок первоначальный,
-//        так и не понял почему, ведь потоки параллельно должны были вызывать метод, и даже если он был помечен
-//        ключ словом sinchronized они могли вызывать его поочереди, но не по порядку.
-
-
-//        count++;
-//        if (count == getSortedListOfStudentsNames().size()) {
-//            count=0;
-//        }
     }
 
 
