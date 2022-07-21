@@ -1,4 +1,4 @@
-// практика написания SQL-запросов
+-- практика написания SQL-запросов
 
 select * from student where age>21 and age<24;
 select name from student;
