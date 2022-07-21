@@ -1,4 +1,4 @@
-// практика написания SQL-запросов
+-- практика написания SQL-запросов
 
 alter table student
     add constraint age_contrains check ( age > 15 );
