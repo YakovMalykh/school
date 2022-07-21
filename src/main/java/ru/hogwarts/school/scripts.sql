@@ -1,3 +1,5 @@
+// практика написания SQL-запросов
+
 select * from student where age>21 and age<24;
 select name from student;
 select * from student where name like '%O%';
