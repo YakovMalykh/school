@@ -19,7 +19,7 @@ public class PortService {
         logger.debug("получен Server port {}", port);
         return port;
     }
-
+// практика работы с параллеьными стримами
     public int returnInteger() {
 //        добавил проверку времени исполнения с выводом в консоль
         long timeStart = System.currentTimeMillis();
