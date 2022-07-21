@@ -1,3 +1,5 @@
+// практика написания SQL-запросов
+
 alter table student
     add constraint age_contrains check ( age > 15 );
 alter table student alter column name set not null;
